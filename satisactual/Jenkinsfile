@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    environment {
+        COMPOSE_PROJECT_NAME = "satisactual"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                withCredentials([string(credentialsId: 'github-pat', variable: 'GITHUB_TOKEN')]) {
+                    sh '''
+                    git clone https://$GITHUB_TOKEN@github.com/mrnagarjuna/Satisactual.git
+                    cd Satisactual
+                    '''
+                }
+            }
+        }
+
+        stage('Build Docker Containers') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml build'
+            }
+        }
+
+        stage('Run Migrations & Start App') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d'
+            }
+        }
+
+        stage('Show Logs') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml logs -f web'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment completed successfully!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}

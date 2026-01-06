@@ -112,19 +112,22 @@ WSGI_APPLICATION = 'satisactual.wsgi.application'
 # DATABASE (MySQL)
 # --------------------------------------------------
 
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'satisactual_1',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': '',
+        'NAME': os.environ.get('DB_NAME', 'satisactual_1'),      # DB name from docker-compose
+        'USER': os.environ.get('DB_USER', 'root'),                # DB user
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),            # DB password (empty allowed)
+        'HOST': os.environ.get('DB_HOST', 'db'),                  # Container name of MySQL service
+        'PORT': os.environ.get('DB_PORT', '3306'),
         'OPTIONS': {
             'init_command': 'SET sql_mode="STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION"',
         },
     }
 }
+
 
 # --------------------------------------------------
 # AUTH / USER MODEL
