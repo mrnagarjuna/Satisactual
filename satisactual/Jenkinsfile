@@ -2,28 +2,19 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/mrnagarjuna/Satisactual.git'
             }
         }
 
-        stage('Stop Old Containers') {
+        stage('Deploy') {
             steps {
-                sh 'docker compose down -v || true'
-            }
-        }
-
-        stage('Build & Deploy') {
-            steps {
-                sh 'docker compose build'
-                sh 'docker compose up -d'
-            }
-        }
-
-        stage('Status') {
-            steps {
-                sh 'docker compose ps'
+                sh '''
+                  docker-compose down -v || true
+                  docker-compose build
+                  docker-compose up -d
+                '''
             }
         }
     }
