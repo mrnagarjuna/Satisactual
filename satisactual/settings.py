@@ -24,7 +24,8 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     "3.110.56.191",
-    "65.2.69.38"
+    "65.2.69.38",
+    "3.108.56.67"
 ]
 
 # --------------------------------------------------
@@ -117,16 +118,14 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'satisactual_1'),      # DB name from docker-compose
-        'USER': os.environ.get('DB_USER', 'root'),                # DB user
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),            # DB password (empty allowed)
-        'HOST': os.environ.get('DB_HOST', 'db'),                  # Container name of MySQL service
-        'PORT': os.environ.get('DB_PORT', '3306'),
-        'OPTIONS': {
-            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION"',
-        },
+        'NAME': 'satisactual_1',
+        'USER': 'root',
+        'PASSWORD': 'rootpassword',
+        'HOST': 'db',
+        'PORT': '3306',
     }
 }
+
 
 
 # --------------------------------------------------
