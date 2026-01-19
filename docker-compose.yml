@@ -17,10 +17,7 @@ services:
     build: .
     container_name: satisactual_web
     restart: always
-    command: >
-      sh -c "./wait-for-db.sh db
-      && python manage.py migrate
-      && python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "./wait-for-db.sh db && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
