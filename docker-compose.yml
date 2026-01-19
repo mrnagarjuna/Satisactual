@@ -4,26 +4,37 @@ services:
   db:
     image: mysql:8.0
     container_name: mysql_db
-    restart: always
+    ports:
+      - "3307:3306"    # maps host port 3307 to container port 3306
     environment:
       MYSQL_DATABASE: satisactual_1
-      MYSQL_ROOT_PASSWORD: rootpassword
-    ports:
-      - "3307:3306"
+      MYSQL_USER: ram
+      MYSQL_PASSWORD: its
+      MYSQL_ROOT_PASSWORD: its
     volumes:
-      - mysql_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
+    networks:
+      - project-network
 
   web:
     build: .
-    container_name: satisactual_web
-    restart: always
-    command: sh -c "./wait-for-db.sh db && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/app
+    container_name: django_app
+    command: /app/entrypoint.sh
     ports:
       - "8000:8000"
     depends_on:
       - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: satisactual_1
+      DB_USER: ram
+      DB_PASSWORD: its
+    networks:
+      - project-network
 
 volumes:
-  mysql_data:
+  db_data:
+
+networks:
+  project-network:

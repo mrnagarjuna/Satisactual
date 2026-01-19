@@ -118,11 +118,11 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'satisactual_1',
-        'USER': 'root',
-        'PASSWORD': 'rootpassword',
-        'HOST': 'db',
-        'PORT': '3306',
+        'NAME': os.getenv('DB_NAME', 'satisactual_1'),
+        'USER': os.getenv('DB_USER', 'ram'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'its'),
+        'HOST': os.getenv('DB_HOST', 'db'),
+        'PORT': os.getenv('DB_PORT', '3306'),
     }
 }
 
