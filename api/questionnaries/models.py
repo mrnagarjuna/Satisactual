@@ -6,7 +6,7 @@ class MstQuestionClass(models.Model):
     cod_question_class = models.CharField(max_length=4,)
     txt_question_class_desc = models.CharField(max_length=48,null=True,blank=True)
     num_display_sequence = models.SmallIntegerField(default=1)
-    flg_default_value = models.CharField(max_length=1,choices=YES_NO_CHOICES,default='N')
+    # flg_default_value = models.CharField(max_length=1,choices=YES_NO_CHOICES,default='N')
     cod_rec_status = models.CharField(max_length=1,choices=REC_STATUS_CHOICES)
     txt_last_maker_id = models.ForeignKey('user.SecUserMaster',on_delete=models.SET_NULL,null=True,blank=True,related_name='%(class)s_maker')
     dat_last_maker = models.DateField(null=True,blank=True)
